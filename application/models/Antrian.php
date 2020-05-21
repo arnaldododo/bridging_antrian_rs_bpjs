@@ -70,4 +70,17 @@ class Antrian extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function get_dilayani($kodepoli, $tanggalperiksa, $layan = '0')
+    {
+        $this->db->select('count(*) as jml');
+        $this->db->where('poli', $kodepoli);
+        $this->db->where('tgl_periksa', $tanggalperiksa);
+        $this->db->where('poli_eksekutif', '0');
+        $this->db->where('sudah_dilayani', $layan);
+        $this->db->group_by('sudah_dilayani');
+        $this->db->from('antrian');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

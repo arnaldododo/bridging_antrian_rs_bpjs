@@ -22,10 +22,11 @@ Code ini hanya implementasi Webservice untuk bridging-nya saja. Adapun untuk sis
 Modul WS
 *********
 
-Lengkapnya ada 5 modul yang bisa diimplementasikan. Namun pada saat ini 2 yang sudah diimplementasikan (Dokumentasi bisa diminta ke tim IT BPJS Kesehatan).
+Lengkapnya ada 5 modul yang bisa diimplementasikan. Pada saat ini 3 yang sudah diimplementasikan (Dokumentasi bisa diminta ke tim IT BPJS Kesehatan).
 
 -  Auth (generate token)
 -  Get nomor antrian (generate)
+-  Get rekap antrian
 
 
 ***************

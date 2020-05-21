@@ -41,23 +41,23 @@ class Antri extends REST_Controller
     }
 
     /* get token */
-    public function auth_get()
+    public function auth_post()
     {
         // Get all the headers
         $headers = $this->input->request_headers();
         // Extract the token
-        $header_user = $headers['username'];
-        $header_pass = $headers['password'];
+        $user = $this->post('username');
+        $pass = $this->post('password');
 
         // Check if valid user
-        $hasil_cek = $this->antrian->auth($header_user, $header_pass);
+        $hasil_cek = $this->antrian->auth($user, $pass);
         $hasil = $this->check($hasil_cek);
         if ($hasil->status) {
             // Create a token from the user data and send it as reponse
             $isitoken = array(
                 'isi_token' => array(
-                    'user' => $header_user,
-                    'pass' => $header_pass,
+                    'user' => $user,
+                    'pass' => $pass,
                     'tipe' => 'Antrian mobile JKN BPJS Kesehatan'
                 )
             );
@@ -79,6 +79,7 @@ class Antri extends REST_Controller
         }
     }
 
+    /* get no antrean */
     public function antrean_post()
     {
         // Get all the headers
@@ -143,6 +144,78 @@ class Antri extends REST_Controller
                         'jenisantrean' => $jenisrequest,
                         'estimasidilayani' => $estimasi,
                         'namapoli' => $poli[0]->nama_poli,
+                        'namadokter' => ''
+                    ),
+                    'metadata' => array(
+                        'message' => 'ok',
+                        'code' => $status
+                    )
+                );
+                $this->response($response, $status);
+            }
+        } catch (Exception $e) {
+            // Token is invalid
+            // Send the unathorized access message
+            $this->gagal();
+        }
+    }
+
+    /* get rekap antrian */
+    public function rekap_post()
+    {
+        // Get all the headers
+        $headers = $this->input->request_headers();
+        // Extract the token
+        $header_token = $headers['x-token'];
+        /* parameter dikirim post */
+        $tanggalperiksa = $this->post('tanggalperiksa');
+        $kodepoli = $this->post('kodepoli');
+        $polieksekutif = $this->post('polieksekutif');
+
+        // Use try-catch
+        // JWT library throws exception if the token is not valid
+        try {
+            // Validate the token
+            // Successfull validation will return the decoded user data else returns false
+            $token = AUTHORIZATION::validateToken($header_token);
+            if ($token === false) {
+                $this->gagal();
+                exit();
+            } else {
+                /* kalau token valid lanjut disini */
+
+                $poli = $this->antrian->get_poli($kodepoli);
+                $cekpoli = $this->check($poli);
+                if ($cekpoli->status === false) {
+                    $this->gagal('Poli tidak tersedia.');
+                    exit();
+                }
+
+                $belum_dilayani = $this->antrian->get_dilayani($kodepoli, $tanggalperiksa);
+                $cek_belum_dilayani = $this->check($belum_dilayani);
+                if ($cek_belum_dilayani->status === false) {
+                    $belum_dilayani = '0';
+                } else {
+                    $belum_dilayani = $belum_dilayani[0]->jml;
+                }
+                $sudah_dilayani = $this->antrian->get_dilayani($kodepoli, $tanggalperiksa, '1');
+                $cek_sudah_dilayani = $this->check($sudah_dilayani);
+                if ($cek_sudah_dilayani->status === false) {
+                    $sudah_dilayani = '0';
+                } else {
+                    $sudah_dilayani = $sudah_dilayani[0]->jml;
+                }
+
+                $lastupdate = $this->antrian->get_estimasi($kodepoli, date('Y-m-d'));
+
+                $status = parent::HTTP_OK;
+                $response = array(
+                    'response' => array(
+                        'namapoli' => $poli[0]->nama_poli,
+                        'totalantrean' => $belum_dilayani,
+                        'jumlahterlayani' => $sudah_dilayani,
+                        'lastupdate' => $lastupdate,
+
                         'namadokter' => ''
                     ),
                     'metadata' => array(

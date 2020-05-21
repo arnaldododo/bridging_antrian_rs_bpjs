@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 20, 2020 at 07:36 AM
+-- Generation Time: May 21, 2020 at 05:41 AM
 -- Server version: 5.7.26
 -- PHP Version: 5.6.40
 
@@ -32,18 +32,20 @@ CREATE TABLE `antrian` (
   `notelp` varchar(20) DEFAULT NULL,
   `jns_referensi` varchar(1) NOT NULL,
   `jns_req` varchar(1) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sudah_dilayani` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `antrian`
 --
 
-INSERT INTO `antrian` (`id_antrian`, `no_peserta`, `poli`, `nik`, `tgl_periksa`, `no_antrian`, `poli_eksekutif`, `no_referensi`, `notelp`, `jns_referensi`, `jns_req`, `timestamp`) VALUES
-(2, '0000000000123', '001', '3506141308950002', '2020-05-20 00:00:00', '1', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:28:00'),
-(3, '0000000000124', '001', '3506141308950002', '2020-05-20 00:00:00', '2', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:33:49'),
-(4, '0000000000125', '001', '3506141308950002', '2020-05-20 00:00:00', '3', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:34:36'),
-(5, '0000003000125', '002', '3506141308950002', '2020-05-20 00:00:00', '1', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:35:56');
+INSERT INTO `antrian` (`id_antrian`, `no_peserta`, `poli`, `nik`, `tgl_periksa`, `no_antrian`, `poli_eksekutif`, `no_referensi`, `notelp`, `jns_referensi`, `jns_req`, `timestamp`, `sudah_dilayani`) VALUES
+(2, '0000000000123', '001', '3506141308950002', '2020-05-20 00:00:00', '1', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:28:00', '1'),
+(3, '0000000000124', '001', '3506141308950002', '2020-05-20 00:00:00', '2', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:33:49', '0'),
+(4, '0000000000125', '001', '3506141308950002', '2020-05-20 00:00:00', '3', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:34:36', '0'),
+(5, '0000003000125', '002', '3506141308950002', '2020-05-20 00:00:00', '1', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-20 05:35:56', '0'),
+(6, '0000003000120', '001', '3506141308950002', '2020-05-21 00:00:00', '1', '0', '0001R0040116A000001', '081123456778', '1', '2', '2020-05-21 03:28:11', '0');
 
 -- --------------------------------------------------------
 
@@ -113,4 +115,4 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `antrian`
 --
 ALTER TABLE `antrian`
-  MODIFY `id_antrian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_antrian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
