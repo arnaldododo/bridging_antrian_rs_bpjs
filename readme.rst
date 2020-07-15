@@ -8,25 +8,28 @@ REST API untuk implementasi sistem bridging terbaru antrian RS ke BPJS Kesehatan
 Framework
 *******************
 
-Implementasi ini menggunakan bahasa pemrograman PHP dan Framework yang digunakan adalah Codeigniter versi 3
+Implementasi ini menggunakan bahasa pemrograman PHP
+Framework yang digunakan adalah Codeigniter versi 3.x
 
 
 *******
-Batasan
+Batasan (Scope)
 *******
 
-Code ini hanya implementasi Webservice untuk bridging-nya saja. Adapun untuk sistem antrian-nya dibuat masing-masing Rumah Sakit dan tidak tercakup dalam code ini.
+Code ini berfokus pada implementasi Webservice untuk bridging-nya (wrapper) saja. Adapun untuk sistem antrian-nya dibuat masing-masing Rumah Sakit / di-integrasikan dengan SIM-RS dan tidak tercakup dalam code ini.
 
 
 *********
 Modul WS
 *********
 
-Lengkapnya ada 5 modul yang bisa diimplementasikan. Pada saat ini 3 yang sudah diimplementasikan (Dokumentasi bisa diminta ke tim IT BPJS Kesehatan).
+Terdapat 5 modul yang telah diimplementasikan sesuai dengan list dari BPJS Kesehatan. (Dokumentasi bisa diminta ke tim IT BPJS Kesehatan).
 
 -  Auth (generate token)
 -  Get nomor antrian (generate)
 -  Get rekap antrian
+-  Get List Jadwal Operasi by nomor peserta
+-  Get List Jadwal Operasi by nomor rentang tanggal
 
 
 ***************

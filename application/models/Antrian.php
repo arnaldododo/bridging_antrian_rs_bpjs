@@ -83,4 +83,22 @@ class Antrian extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function get_kodebooking_op($nopeserta)
+    {
+        $this->db->where('nopeserta', $nopeserta);
+        $this->db->where('terlaksana', 0);
+        $this->db->from('jadwal_operasi');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_list_op($tanggal_awal, $tanggal_akhir)
+    {
+        $this->db->where('tanggaloperasi >= ', $tanggal_awal);
+        $this->db->where('tanggaloperasi <= ', $tanggal_akhir);
+        $this->db->from('jadwal_operasi');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

@@ -40,6 +40,12 @@ class Antri extends REST_Controller
         return $obj;
     }
 
+    private function tomiliseconds($tanggal)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        return strtotime($tanggal) * 1000;
+    }
+
     /* get token */
     public function auth_post()
     {
@@ -215,8 +221,128 @@ class Antri extends REST_Controller
                         'totalantrean' => $belum_dilayani,
                         'jumlahterlayani' => $sudah_dilayani,
                         'lastupdate' => $lastupdate,
-
                         'namadokter' => ''
+                    ),
+                    'metadata' => array(
+                        'message' => 'ok',
+                        'code' => $status
+                    )
+                );
+                $this->response($response, $status);
+            }
+        } catch (Exception $e) {
+            // Token is invalid
+            // Send the unathorized access message
+            $this->gagal();
+        }
+    }
+
+    /* get list kode booking by noka */
+    public function operasi_post()
+    {
+        // Get all the headers
+        $headers = $this->input->request_headers();
+        // Extract the token
+        $header_token = $headers['x-token'];
+        /* parameter dikirim post */
+        $nopeserta = $this->post('nopeserta');
+
+        // Use try-catch
+        // JWT library throws exception if the token is not valid
+        try {
+            // Validate the token
+            // Successfull validation will return the decoded user data else returns false
+            $token = AUTHORIZATION::validateToken($header_token);
+            if ($token === false) {
+                $this->gagal();
+                exit();
+            } else {
+                /* kalau token valid lanjut disini */
+
+                $operasi = $this->antrian->get_kodebooking_op($nopeserta);
+                $cekop = $this->check($operasi);
+                if ($cekop->status === false) {
+                    $this->gagal('Anda belum memiliki jadwal operasi.');
+                    exit();
+                }
+
+                for ($i = 0; $i < count($operasi); $i++) {
+                    $hasil[$i] = array(
+                        'kodebooking' => $operasi[$i]->kodebooking,
+                        'tanggaloperasi' => $operasi[$i]->tanggaloperasi,
+                        'jenistindakan' => $operasi[$i]->jenistindakan,
+                        'kodepoli' => $operasi[$i]->kodepoli,
+                        'namapoli' => $operasi[$i]->namapoli,
+                        'terlaksana' => $operasi[$i]->terlaksana
+                    );
+                }
+
+                $status = parent::HTTP_OK;
+                $response = array(
+                    'response' => array(
+                        'list' => $hasil
+                    ),
+                    'metadata' => array(
+                        'message' => 'ok',
+                        'code' => $status
+                    )
+                );
+                $this->response($response, $status);
+            }
+        } catch (Exception $e) {
+            // Token is invalid
+            // Send the unathorized access message
+            $this->gagal();
+        }
+    }
+
+    /* get jadwal operasi by tanggal */
+    public function jadwaloperasi_post()
+    {
+        // Get all the headers
+        $headers = $this->input->request_headers();
+        // Extract the token
+        $header_token = $headers['x-token'];
+        /* parameter dikirim post */
+        $tanggalawal = $this->post('tanggalawal');
+        $tanggalakhir = $this->post('tanggalakhir');
+
+        // Use try-catch
+        // JWT library throws exception if the token is not valid
+        try {
+            // Validate the token
+            // Successfull validation will return the decoded user data else returns false
+            $token = AUTHORIZATION::validateToken($header_token);
+            if ($token === false) {
+                $this->gagal();
+                exit();
+            } else {
+                /* kalau token valid lanjut disini */
+
+                $operasi = $this->antrian->get_list_op($tanggalawal, $tanggalakhir);
+                $cekop = $this->check($operasi);
+                if ($cekop->status === false) {
+                    $this->gagal('Belum ada jadwal operasi pada tanggal tersebut.');
+                    exit();
+                }
+
+                for ($i = 0; $i < count($operasi); $i++) {
+                    $hasil[$i] = array(
+                        'kodebooking' => $operasi[$i]->kodebooking,
+                        'tanggaloperasi' => $operasi[$i]->tanggaloperasi,
+                        'jenistindakan' => $operasi[$i]->jenistindakan,
+                        'kodepoli' => $operasi[$i]->kodepoli,
+                        'namapoli' => $operasi[$i]->namapoli,
+                        'terlaksana' => $operasi[$i]->terlaksana,
+                        'nopeserta' => $operasi[$i]->nopeserta,
+                        'lastupdate' => $this->tomiliseconds($operasi[$i]->lastupdate)
+                    );
+                }
+
+                $status = parent::HTTP_OK;
+                $response = array(
+                    'response' => array(
+                        'list' => $hasil
                     ),
                     'metadata' => array(
                         'message' => 'ok',
