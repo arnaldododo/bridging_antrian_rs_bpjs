@@ -20,16 +20,24 @@ Code ini berfokus pada implementasi Webservice untuk bridging-nya (wrapper) saja
 
 
 *********
-Modul WS
+Modul WS dan pemanggilan URL
 *********
 
-Terdapat 5 modul yang telah diimplementasikan sesuai dengan list dari BPJS Kesehatan. (Dokumentasi bisa diminta ke tim IT BPJS Kesehatan).
+Terdapat 5 modul yang telah diimplementasikan sesuai dengan list dari BPJS Kesehatan.
+Dokumentasi spesifikasi WS bisa diminta ke tim IT BPJS Kesehatan (parameter yang perlu dikirim tersedia disini).
 
--  Auth (generate token)
--  Get nomor antrian (generate)
--  Get rekap antrian
--  Get List Jadwal Operasi by nomor peserta
--  Get List Jadwal Operasi by nomor rentang tanggal
+1.  Auth (generate token)
+	- ``http://localhost/folder_project/antri/auth``
+2.  Get nomor antrian (generate)
+	- ``http://localhost/folder_project/antri/antrian``
+3.  Get rekap antrian
+	- ``http://localhost/folder_project/antri/rekap``
+4. Get List Jadwal Operasi by nomor peserta
+	- ``http://localhost/folder_project/antri/operasi``
+5.  Get List Jadwal Operasi by nomor rentang tanggal
+	- ``http://localhost/folder_project/antri/jadwaloperasi``
+
+Untuk modul 2 sampai 4 sertakan x-token yang digenerate dari modul 1 pada header saat mengirim request.
 
 
 ***************
