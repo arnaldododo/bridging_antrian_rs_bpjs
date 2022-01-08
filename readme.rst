@@ -5,6 +5,14 @@ WS Bridging Antrean RS - BPJS Kesehatan
 REST API untuk implementasi sistem bridging terbaru antrian RS ke BPJS Kesehatan dimana pihak Rumah Sakit sebagai penyedia Webservice-nya.
 
 *******************
+Pertanyaan ?
+*******************
+
+Kami sudah buka tab Discussions untuk mengakomodir pertanyaan.
+Dipersilahkan untuk bertanya disini, member lain juga dipersilahkan jika bisa memberikan jawaban.
+
+
+*******************
 Framework
 *******************
 
