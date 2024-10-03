@@ -5,11 +5,10 @@ WS Bridging Antrean RS - BPJS Kesehatan
 REST API untuk implementasi sistem bridging terbaru antrian RS ke BPJS Kesehatan dimana pihak Rumah Sakit sebagai penyedia Webservice-nya.
 
 *******************
-Update versi terbaru
+Update
 *******************
 
-Code ini telah dikembangkan dengan update versi terbaru menggunakan Laravel. Cek pada repo berikut:
-https://github.com/arnaldododo/SIMRS-Bridging-BPJS
+Repo ini sudah tidak dikembangkan secara aktif lagi. Namun bisa tetap digunakan dan dikembangkan sendiri sesuai dengan kebutuhan serta update ketentuan dan API dari pihak BPJS Kesehatan.
 
 *******************
 Pertanyaan ?
